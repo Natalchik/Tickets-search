@@ -17,7 +17,7 @@ class TicketManagerTest {
     Ticket ticket5 = new Ticket(5, 3200, "VKO", "AER", 90);
 
     @org.junit.jupiter.api.Test
-    void shouldAddTickets() {
+    void shouldFindMoreThanOneTickets() {
         manager.add(ticket1);
         manager.add(ticket2);
         manager.add(ticket3);
@@ -30,46 +30,22 @@ class TicketManagerTest {
     }
 
     @org.junit.jupiter.api.Test
-    void shouldSearchTicketByAirports() {
+    void shouldFindOneTicket() {
 
-        repository.save(ticket1);
-        repository.save(ticket2);
-        repository.save(ticket3);
-        repository.save(ticket4);
-
-
-        Ticket[] expected = {ticket1};
-        Ticket[] actual = manager.findAll("DME", "AER");
-        assertEquals(expected, actual);
-    }
-
-    @org.junit.jupiter.api.Test
-    void shouldNoSearchTicketIfNoSuchDepartureAirport() {
         manager.add(ticket1);
         manager.add(ticket2);
         manager.add(ticket3);
         manager.add(ticket4);
 
-        Ticket[] expected = {};
-        Ticket[] actual = manager.findAll("AER", "LED");
-        assertEquals(expected, actual);
-    }
 
-    @org.junit.jupiter.api.Test
-    void shouldNoSearchTicketIfNoSuchArrivalAirport() {
-        manager.add(ticket1);
-        manager.add(ticket2);
-        manager.add(ticket3);
-        manager.add(ticket4);
-
-        Ticket[] expected = new Ticket[]{};
-        Ticket[] actual = manager.findAll("SVO", "QQA");
-        assertEquals(expected, actual);
+        Ticket[] expected = {ticket2};
+        Ticket[] actual = manager.findAll("VKO", "AAQ");
+        assertArrayEquals(expected, actual);
     }
 
 
     @org.junit.jupiter.api.Test
-    void shouldNoSearchTicketInEmptyRepository() {
+    void shouldNotSearchTicketInEmptyRepository() {
         Ticket[] expected = {};
         Ticket[] actual = manager.findAll("DME", "AER");
         assertArrayEquals(expected, actual);
